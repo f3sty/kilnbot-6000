@@ -8,7 +8,7 @@
 #define MAXCLK  14
 
 #define SSR 9
-#define ACT_LED 13
+#define ACT_LED 8
 
 #define HYST 10
 
@@ -76,6 +76,7 @@ void loop() {
   else if (c > maxTemp) {
     // yes, switch off the kiln
     digitalWrite(SSR, LOW);
+    digitalWrite(ACT_LED, LOW);
   }
   /*
     if the kiln *should* be powered on, but
@@ -86,6 +87,7 @@ void loop() {
   */
   else if ((c < (maxTemp - HYST)) && (ssrState == 1)) {
     digitalWrite(SSR, HIGH);
+    digitalWrite(ACT_LED, HIGH);
   }
 
   delay(250);
@@ -138,10 +140,12 @@ void checkSerial(void) {
     if (wmode) {
       if (atoi(val) > 0) {
         digitalWrite(SSR, HIGH);
+        digitalWrite(ACT_LED, HIGH);
         ssrState = 1;
       }
       else {
         digitalWrite(SSR, LOW);
+        digitalWrite(ACT_LED, LOW);
         ssrState = 0;
       }
       Serial.println(F("OK"));
@@ -163,4 +167,3 @@ void checkSerial(void) {
     }
   }
 }
-
