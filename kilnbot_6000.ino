@@ -31,6 +31,12 @@ void setup() {
   Serial.println(F("====================="));
   // wait for MAX chip to stabilize
   delay(500);
+  /* Error masking for dodgy ebay thermocouple modules
+     that constantly report a ground fault.
+     Until PR31 gets merged, you'll need this fork
+     of the Adafruit-MAX3155 librry to use setErrorMask:
+     https://github.com/f3sty/Adafruit-MAX31855-library
+  */
   thermocouple.setErrorMask(0x2);
 
   // set relay and indicator LED pins to
